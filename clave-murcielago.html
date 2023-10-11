@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clave Murciélago</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Calibri, sans-serif;
+            background-color: #4174b8;
+            color: #fff;
+            margin: 100px;
+            padding: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* justify-content: center; */
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 10;
+            padding: 10;
+        }
+
+        .form-container {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 10px;
+            /* width: 45%; /* Establece el ancho al 45% para ambos contenedores */
+            width: 90%; /* Ancho al 100% en todos los dispositivos */
+            /* max-width: 600px; /* Ancho máximo en pantallas más grandes */
+            overflow: auto; /* Agrega scroll si el contenido es largo */
+        }
+
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0;
+            margin-bottom: 10px;
+            font-family: Calibri, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            background-color: #007acc;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #0055a4;
+        }
+
+        h2 {
+            font-size: 18px;
+        }
+
+        .form-container-container {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 100%;
+            padding: 50px;
+        }
+
+        .arrow-down {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 10px;
+            color: #007acc;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .arrow-down::before {
+            content: "\2193"; /* Código de la flecha hacia abajo redonda */
+            font-family: Arial, sans-serif; /* Utiliza una fuente compatible con la flecha */
+        }
+
+        /* Estilos para pantallas más pequeñas (responsivos) */
+        @media (max-width: 600px) {
+            .form-container {
+                width:  100%;
+                margin: 10; /* Elimina el margen */
+            }
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: fixed; /* Cambiado a fixed */
+            bottom: 0; /* Cambiado a bottom: 0 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: Calibri, sans-serif; /* Fuente Calibri */
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+        }
+
+        .footer i {
+            font-size: 20px;
+        }
+
+        .footer img {
+            width: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clave murciélago</h1>
+
+    <div class="form-container-container">
+        <div class="form-container">
+            <h2>Texto normal</h2>
+            <form id="codificador-form">
+                <label for="input">Ingresa el texto que quieres convertir en clave</label>
+                <textarea id="input" name="input" rows="4" cols="50" required></textarea>
+                <!-- <button type="button" onclick="codificar()">Codificar</button> -->
+            </form>
+            <div class="arrow-down"></div>
+            <h2>Texto en clave</h2>
+            <textarea id="output" rows="4" cols="50" readonly></textarea>
+        </div>
+
+        <div class="form-container">
+            <h2>Texto en clave</h2>
+            <form id="decodificador-form">
+                <label for="input-decodificar">Ingresa el texto en clave</label>
+                <textarea id="input-decodificar" name="input-decodificar" rows="4" cols="50" required></textarea>
+                <!-- <button type="button" onclick="decodificar()">Decodificar</button> -->
+            </form>
+            <div class="arrow-down"></div>
+            <h2>Texto descifrado</h2>
+            <textarea id="output-decodificar" rows="4" cols="50" readonly></textarea>
+        </div>
+    </div>
+    <div class="footer">
+        <a href="https://www.instagram.com/guiasargentinas/">
+            <i class="fab fa-instagram"></i> AGA
+        </a>
+        <a href="https://www.linkedin.com/in/natalia-elizabeth-aparicio/">
+            <i class="fab fa-linkedin"></i> Nati Aparicio
+        </a>
+    </div>
+    <script>
+        function codificarTexto(input) {
+            let output = "";
+
+            for (let i = 0; i < input.length; i++) {
+                let char = input.charAt(i);
+
+                switch (char) {
+                    case 'M':
+                    case 'm':
+                        output += '0';
+                        break;
+                    case 'U':
+                    case 'u':
+                    case 'ú':
+                        output += '1';
+                        break;
+                    case 'R':
+                    case 'r':
+                        output += '2';
+                        break;
+                    case 'C':
+                    case 'c':
+                        output += '3';
+                        break;
+                    case 'I':
+                    case 'i':
+                    case 'í':
+                        output += '4';
+                        break;
+                    case 'E':
+                    case 'e':
+                    case 'é':
+                        output += '5';
+                        break;
+                    case 'L':
+                    case 'l':
+                        output += '6';
+                        break;
+                    case 'A':
+                    case 'a':
+                    case 'á':
+                        output += '7';
+                        break;
+                    case 'G':
+                    case 'g':
+                        output += '8';
+                        break;
+                    case 'O':
+                    case 'o':
+                    case 'ó':
+                        output += '9';
+                        break;
+                    default:
+                        output += char;
+                }
+            }
+
+            return output;
+        }
+
+        function decodificarTexto(input) {
+            let output = "";
+
+            for (let i = 0; i < input.length; i++) {
+                let char = input.charAt(i);
+
+                switch (char) {
+                    case '0':
+                        output += 'M';
+                        break;
+                    case '1':
+                        output += 'U';
+                        break;
+                    case '2':
+                        output += 'R';
+                        break;
+                    case '3':
+                        output += 'C';
+                        break;
+                    case '4':
+                        output += 'I';
+                        break;
+                    case '5':
+                        output += 'E';
+                        break;
+                    case '6':
+                        output += 'L';
+                        break;
+                    case '7':
+                        output += 'A';
+                        break;
+                    case '8':
+                        output += 'G';
+                        break;
+                    case '9':
+                        output += 'O';
+                        break;
+                    default:
+                        output += char;
+                }
+            }
+
+            return output;
+        }
+
+        const inputCodificar = document.getElementById("input");
+        const outputCodificar = document.getElementById("output");
+        const inputDecodificar = document.getElementById("input-decodificar");
+        const outputDecodificar = document.getElementById("output-decodificar");
+
+        inputCodificar.addEventListener("input", () => {
+            const inputText = inputCodificar.value;
+            const outputText = codificarTexto(inputText);
+            outputCodificar.value = outputText;
+        });
+
+        inputDecodificar.addEventListener("input", () => {
+            const inputText = inputDecodificar.value;
+            const outputText = decodificarTexto(inputText);
+            outputDecodificar.value = outputText;
+        });
+
+        function codificar() {
+            let inputText = document.getElementById("input").value;
+            let outputText = codificarTexto(inputText);
+            document.getElementById("output").value = outputText;
+        }
+
+        function decodificar() {
+            let inputText = document.getElementById("input-decodificar").value;
+            let outputText = decodificarTexto(inputText);
+            document.getElementById("output-decodificar").value = outputText;
+        }
+    </script>
+</body>
+</html>
