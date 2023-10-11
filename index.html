@@ -14,14 +14,31 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* justify-content: center; */
             height: 100vh;
+            overflow: auto; /* Agrega scroll si el contenido es largo */
         }
 
         h1 {
             font-size: 24px;
             margin: 10;
-            padding: 10;
+            padding: 10px;
+        }
+
+        h2 {
+            font-size: 18px;
+        }
+
+        .form-container-container {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            width: 100%;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 5px;
+            padding-bottom: 50px;
         }
 
         .form-container {
@@ -32,10 +49,8 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             margin: 10px;
-            /* width: 45%; /* Establece el ancho al 45% para ambos contenedores */
-            width: 90%; /* Ancho al 100% en todos los dispositivos */
-            /* max-width: 600px; /* Ancho máximo en pantallas más grandes */
-            overflow: auto; /* Agrega scroll si el contenido es largo */
+            /* width: 500px */
+            width: calc(50% - 30px); /* Ancho del 50% con margen */
         }
 
         .form-container textarea {
@@ -62,23 +77,6 @@
             background-color: #0055a4;
         }
 
-        h2 {
-            font-size: 18px;
-        }
-
-        .form-container-container {
-            display: flex;
-            justify-content: space-between;
-            flex-direction: column;
-            align-items: center;
-            flex-wrap: wrap;
-            max-width: 100%;
-            padding-left: 5px;
-            padding-right: 5px;
-            padding-top: 5px;
-            padding-bottom: 50px;
-        }
-
         .arrow-down {
             text-align: center;
             font-size: 24px;
@@ -93,13 +91,16 @@
             font-family: Arial, sans-serif; /* Utiliza una fuente compatible con la flecha */
         }
 
-        /* Estilos para pantallas más pequeñas (responsivos) */
-        @media (max-width: 600px) {
+         @media (max-width: 600px) {
+            .form-container-container {
+                flex-direction: column;
+            }
             .form-container {
-                width:  100%;
-                margin: 10; /* Elimina el margen */
+                width: 90%; 
+                margin: 10px 0; /* Añade espacio entre los contenedores en dispositivos móviles */
             }
         }
+
 
         .footer {
             background-color: #333;
