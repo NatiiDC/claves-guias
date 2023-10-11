@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Clave Murciélago</title>
+    <title>Claves Guías</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta charset="UTF-8">
     <style>
@@ -166,75 +166,60 @@
     </style>
 </head>
 <body>
+    
     <h1>Clave murciélago</h1>
 
-    <div class="form-container-container">
+    <div class="form-container-container" id="murcielago-container">
         <div class="form-container">
             <h2>Texto normal</h2>
-            <form id="codificador-form">
-                <label for="input">Ingresa el texto que quieres convertir en clave</label>
+            <form id="murcielago-codificador-form">
+                <label for="input-bat">Ingresa el texto que quieres convertir en clave</label>
                 <textarea id="input-bat" name="input" rows="4" cols="50" required></textarea>
-                <!-- <button type="button" onclick="encode()">Codificar</button> -->
             </form>
             <div class="arrow-down"></div>
             <h2>Texto en clave</h2>
             <textarea id="output-bat" rows="4" cols="50" readonly></textarea>
-            <button class="copy-button" data-clipboard-target="#output-bat">
+            <button class="copy-button" data-clipboard-target="#output-bat" data-operation="murcielago">
                 Copiar
                 <span class="tooltip">Copiado</span>
-              </button>
+            </button>
         </div>
 
         <div class="form-container">
             <h2>Texto en clave</h2>
-            <form id="decodificador-form">
+            <form id="murcielago-decodificador-form">
                 <label for="input-decode-bat">Ingresa el texto en clave</label>
                 <textarea id="input-decode-bat" name="input-decode-bat" rows="4" cols="50" required></textarea>
-                <!-- <button type="button" onclick="decode()">Decodificar</button> -->
             </form>
             <div class="arrow-down"></div>
             <h2>Texto descifrado</h2>
             <textarea id="output-decode-bat" rows="4" cols="50" readonly></textarea>
-            <button class="copy-button" data-clipboard-target="#output-decode-bat">
+            <button class="copy-button" data-clipboard-target="#output-decode-bat" data-operation="murcielago">
                 Copiar
                 <span class="tooltip">Copiado</span>
-              </button>
+            </button>
         </div>
     </div>
 
     <h1>Cenit Polar</h1>
 
-    <div class="form-container-container">
+    <div class="form-container-container" id="cenit-container">
         <div class="form-container">
-            <h2>Texto normal</h2>
-            <form id="codificador-form">
-                <label for="input">Ingresa el texto que quieres convertir en clave</label>
+            <h2>La clave es simétrica</h2>
+            <form id="cenit-codificador-form">
+                <label for="input-cenit">Ingresa el texto que quieres convertir en clave</label>
                 <textarea id="input-cenit" name="input-cenit" rows="4" cols="50" required></textarea>
             </form>
             <div class="arrow-down"></div>
             <h2>Texto en clave</h2>
             <textarea id="output-cenit" rows="4" cols="50" readonly></textarea>
-            <button class="copy-button" data-clipboard-target="#output-cenit">
+            <button class="copy-button" data-clipboard-target="#output-cenit" data-operation="cenit">
                 Copiar
                 <span class="tooltip">Copiado</span>
-              </button>
-        </div>
-
-        <div class="form-container">
-            <h2>Texto en clave</h2>
-            <form id="decodificador-form">
-                <label for="input-decode-cenit">Ingresa el texto en clave</label>
-                <textarea id="input-decode-cenit" name="input-decode-cenit" rows="4" cols="50" required></textarea>
-            </form>
-            <div class="arrow-down"></div>
-            <h2>Texto descifrado</h2>
-            <textarea id="output-decode-cenit" rows="4" cols="50" readonly></textarea>
-            <button class="copy-button" data-clipboard-target="#output-decode-cenit">
-                Copiar
-                <span class="tooltip">Copiado</span>
-              </button>
+            </button>
         </div>
     </div>
+    
     <div class="footer">
         <a href="https://www.instagram.com/guiasargentinas/">
             <i class="fab fa-instagram"></i> AGA
@@ -327,7 +312,6 @@
             const outputText = encodeMurcielagoText(inputText);
             outputBatEncode.value = outputText;
         });
-
         inputBatDecode.addEventListener("input", () => {
             const inputText = inputBatDecode.value;
             const outputText = decodedMurcielagoTextInLowerCase(inputText);
@@ -336,19 +320,10 @@
 
         const inputCenitPolarEncode = document.getElementById("input-cenit");
         const outputCenitPolarEncode = document.getElementById("output-cenit");
-        const inputCenitPolarDecode = document.getElementById("input-decode-cenit");
-        const outputCenitPolarDecode = document.getElementById("output-decode-cenit");
-
         inputCenitPolarEncode.addEventListener("input", () => {
             const inputText = inputCenitPolarEncode.value;
             const outputText = symetricEncodeCenitPolar(inputText);
             outputCenitPolarEncode.value = outputText;
-        });
-
-        inputCenitPolarDecode.addEventListener("input", () => {
-            const inputText = inputCenitPolarDecode.value;
-            const outputText = symetricEncodeCenitPolar(inputText);
-            outputCenitPolarDecode.value = outputText;
         });
 
         const copyButtons = document.querySelectorAll('.copy-button');
