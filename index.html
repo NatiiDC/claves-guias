@@ -91,7 +91,41 @@
             font-family: Arial, sans-serif; /* Utiliza una fuente compatible con la flecha */
         }
 
-         @media (max-width: 600px) {
+        /* Estilos para el botón de copia y el tooltip */
+        .copy-button {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007acc;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            margin-left: 10px; /* Espacio entre el botón y el textarea */
+        }
+
+        .copy-button .tooltip {
+            opacity: 0;
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            position: absolute;
+            top: -30px; /* Ajusta la posición del tooltip según tu diseño */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .copy-button:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        @media (max-width: 600px) {
             .form-container-container {
                 flex-direction: column;
             }
@@ -100,7 +134,6 @@
                 margin: 10px 0; /* Añade espacio entre los contenedores en dispositivos móviles */
             }
         }
-
 
         .footer {
             background-color: #333;
@@ -141,11 +174,15 @@
             <form id="codificador-form">
                 <label for="input">Ingresa el texto que quieres convertir en clave</label>
                 <textarea id="input" name="input" rows="4" cols="50" required></textarea>
-                <!-- <button type="button" onclick="codificar()">Codificar</button> -->
+                <!-- <button type="button" onclick="encode()">Codificar</button> -->
             </form>
             <div class="arrow-down"></div>
             <h2>Texto en clave</h2>
             <textarea id="output" rows="4" cols="50" readonly></textarea>
+            <button class="copy-button" data-clipboard-target="#output">
+                Copiar
+                <span class="tooltip">Copiado</span>
+              </button>
         </div>
 
         <div class="form-container">
@@ -153,11 +190,15 @@
             <form id="decodificador-form">
                 <label for="input-decodificar">Ingresa el texto en clave</label>
                 <textarea id="input-decodificar" name="input-decodificar" rows="4" cols="50" required></textarea>
-                <!-- <button type="button" onclick="decodificar()">Decodificar</button> -->
+                <!-- <button type="button" onclick="decode()">Decodificar</button> -->
             </form>
             <div class="arrow-down"></div>
             <h2>Texto descifrado</h2>
             <textarea id="output-decodificar" rows="4" cols="50" readonly></textarea>
+            <button class="copy-button" data-clipboard-target="#output-decodificar">
+                Copiar
+                <span class="tooltip">Copiado</span>
+              </button>
         </div>
     </div>
     <div class="footer">
@@ -169,109 +210,63 @@
         </a>
     </div>
     <script>
-        function codificarTexto(input) {
-            let output = "";
+        function encodeText(input) {
+            const conversionMap = {
+                'M': '0', 'm': '0',
+                'U': '1', 'u': '1', 'ú': '1',
+                'R': '2', 'r': '2',
+                'C': '3', 'c': '3',
+                'I': '4', 'i': '4', 'í': '4',
+                'E': '5', 'e': '5', 'é': '5',
+                'L': '6', 'l': '6',
+                'A': '7', 'a': '7', 'á': '7',
+                'G': '8', 'g': '8',
+                'O': '9', 'o': '9', 'ó': '9'
+            };
 
-            for (let i = 0; i < input.length; i++) {
-                let char = input.charAt(i);
-
-                switch (char) {
-                    case 'M':
-                    case 'm':
-                        output += '0';
-                        break;
-                    case 'U':
-                    case 'u':
-                    case 'ú':
-                        output += '1';
-                        break;
-                    case 'R':
-                    case 'r':
-                        output += '2';
-                        break;
-                    case 'C':
-                    case 'c':
-                        output += '3';
-                        break;
-                    case 'I':
-                    case 'i':
-                    case 'í':
-                        output += '4';
-                        break;
-                    case 'E':
-                    case 'e':
-                    case 'é':
-                        output += '5';
-                        break;
-                    case 'L':
-                    case 'l':
-                        output += '6';
-                        break;
-                    case 'A':
-                    case 'a':
-                    case 'á':
-                        output += '7';
-                        break;
-                    case 'G':
-                    case 'g':
-                        output += '8';
-                        break;
-                    case 'O':
-                    case 'o':
-                    case 'ó':
-                        output += '9';
-                        break;
-                    default:
-                        output += char;
-                }
-            }
-
-            return output;
+            return input
+                .split('')
+                .map(char => conversionMap[char] || char)
+                .join('');
         }
 
-        function decodificarTexto(input) {
-            let output = "";
+        function decodedTextInCaps(input) {
+            const conversionMap = {
+                '0': 'M',
+                '1': 'U',
+                '2': 'R',
+                '3': 'C',
+                '4': 'I',
+                '5': 'E',
+                '6': 'L',
+                '7': 'A',
+                '8': 'G',
+                '9': 'O'
+            };
 
-            for (let i = 0; i < input.length; i++) {
-                let char = input.charAt(i);
+            return input
+                .split('')
+                .map(char => conversionMap[char] || char)
+                .join('');
+        }
+        function decodedTextInLowerCase(input) {
+            const conversionMap = {
+                '0': 'm',
+                '1': 'u',
+                '2': 'r',
+                '3': 'c',
+                '4': 'i',
+                '5': 'e',
+                '6': 'l',
+                '7': 'a',
+                '8': 'g',
+                '9': 'o'
+            };
 
-                switch (char) {
-                    case '0':
-                        output += 'M';
-                        break;
-                    case '1':
-                        output += 'U';
-                        break;
-                    case '2':
-                        output += 'R';
-                        break;
-                    case '3':
-                        output += 'C';
-                        break;
-                    case '4':
-                        output += 'I';
-                        break;
-                    case '5':
-                        output += 'E';
-                        break;
-                    case '6':
-                        output += 'L';
-                        break;
-                    case '7':
-                        output += 'A';
-                        break;
-                    case '8':
-                        output += 'G';
-                        break;
-                    case '9':
-                        output += 'O';
-                        break;
-                    default:
-                        output += char;
-                }
-            }
-
-            return output;
+            return input
+                .split('')
+                .map(char => conversionMap[char] || char)
+                .join('');
         }
 
         const inputCodificar = document.getElementById("input");
@@ -281,27 +276,39 @@
 
         inputCodificar.addEventListener("input", () => {
             const inputText = inputCodificar.value;
-            const outputText = codificarTexto(inputText);
+            const outputText = encodeText(inputText);
             outputCodificar.value = outputText;
         });
 
         inputDecodificar.addEventListener("input", () => {
             const inputText = inputDecodificar.value;
-            const outputText = decodificarTexto(inputText);
+            const outputText = decodedTextInLowerCase(inputText);
             outputDecodificar.value = outputText;
         });
 
-        function codificar() {
+        function encode() {
             let inputText = document.getElementById("input").value;
-            let outputText = codificarTexto(inputText);
+            let outputText = encodeText(inputText);
             document.getElementById("output").value = outputText;
         }
 
-        function decodificar() {
+        function decode() {
             let inputText = document.getElementById("input-decodificar").value;
-            let outputText = decodificarTexto(inputText);
+            let outputText = decodedTextInCaps(inputText);
             document.getElementById("output-decodificar").value = outputText;
         }
+
+        const copyButtons = document.querySelectorAll('.copy-button');
+
+        copyButtons.forEach((button) => {
+            const targetId = button.getAttribute('data-clipboard-target');
+            const target = document.querySelector(targetId);
+
+            button.addEventListener('click', () => {
+            target.select();
+            document.execCommand('copy');
+            });
+        });
     </script>
 </body>
 </html>
